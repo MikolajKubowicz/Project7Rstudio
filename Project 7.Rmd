@@ -1,0 +1,219 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+```{r}
+ read.csv("C:/Users/mikol/Downloads/student-mat.csv", sep = ";")
+```
+#Question 1
+```{r}
+y <- c(2, 8, 2)
+baseline_prediction <- mean(y)
+cat("Baseline Prediction:", baseline_prediction, "\n")
+
+```
+
+
+
+
+
+
+#Question 1
+```{r}
+y <- c(2, 8, 2)
+baseline_prediction <- mean(y)
+SST <- sum((y - baseline_prediction)^2)
+cat("Total Sum of Squares (SST):", SST, "\n")
+
+```
+
+
+
+#Question 1
+```{r}
+x <- c(0, 1, 1)
+y <- c(2, 8, 2)
+
+baseline_prediction <- mean(y)
+SST <- sum((y - baseline_prediction)^2)
+y_pred <- 6 * x + 2
+SSE_fit <- sum((y - y_pred)^2)
+cat("Baseline Prediction:", baseline_prediction, "\n")
+cat("Total Sum of Squares (SST):", SST, "\n")
+cat("Sum of Squared Errors (SSE) of the fitted model:", SSE_fit, "\n")
+
+```
+```{r}
+y <- c(2, 8, 2)
+baseline_prediction <- mean(y)
+SST <- sum((y - baseline_prediction)^2)
+x <- c(0, 1, 1)
+y_pred <- 6 * x + 2
+SSE <- sum((y - y_pred)^2)
+R_squared <- 1 - (SSE / SST)
+cat("R-squared (R^2) of the model:", R_squared, "\n")
+
+```
+
+#question 2
+```{r}
+r_squared_values <- c(-0.3, 0, 0.35, 0.68, 0.94, 1.00, 1.2, 1.5)
+valid_r_squared <- r_squared_values[r_squared_values >= 0 & r_squared_values <= 1]
+cat("Valid R-squared values:", valid_r_squared, "\n")
+
+```
+#3
+```{r}
+df <- read.csv("C:/Users/mikol/Downloads/student-mat.csv", sep = ";")
+num_observations <- nrow(df)
+cat("Number of observations in the dataset:", num_observations, "\n")
+
+```
+#4
+```{r}
+df <- read.csv("C:/Users/mikol/Downloads/student-mat.csv", sep = ";")
+num_variables <- ncol(df)
+cat("Number of variables in the dataset:", num_variables, "\n")
+
+```
+#5
+```{r}
+df <- read.csv("C:/Users/mikol/Downloads/student-mat.csv", sep = ";")
+for(col in names(df)) {
+  if(is.character(df[[col]])) {
+    df[[col]] <- as.factor(df[[col]])
+  }
+}
+
+lm1 <- lm(G3 ~ . -G1 -G2, data = df)
+summary(lm1)$adj.r.squared
+
+```
+#6
+```{r}
+df <- read.csv("C:/Users/mikol/Downloads/student-mat.csv", sep = ";")
+for(col in names(df)) {
+  if(is.character(df[[col]])) {
+    df[[col]] <- as.factor(df[[col]])
+  }
+}
+lm1 <- lm(G3 ~ . -G1 -G2, data = df)
+summary(lm1)
+
+```
+
+#7
+```{r}
+df <- read.csv("C:/Users/mikol/Downloads/student-mat.csv", sep = ";")
+for(col in names(df)) {
+  if(is.character(df[[col]])) {
+    df[[col]] <- as.factor(df[[col]])
+  }
+}
+
+lm1 <- lm(G3 ~ . - G1 - G2, data = df)
+coef_freetime <- summary(lm1)$coefficients["freetime", "Estimate"]
+cat("Coefficient of freetime:", coef_freetime, "\n")
+
+```
+
+#8
+```{r}
+lm2 <- lm(G3 ~ sex + failures + goout, data = df)
+adjusted_r_squared_lm2 <- summary(lm2)$adj.r.squared
+cat("Adjusted R-squared of lm2:", adjusted_r_squared_lm2, "\n")
+
+```
+```{r}
+lm_model <- lm(G3 ~ sex + failures + goout, data = df)
+model_summary <- summary(lm_model)
+
+cat("Multiple R-squared:", model_summary$r.squared, "\n")
+cat("Adjusted R-squared:", model_summary$adj.r.squared, "\n")
+
+```
+
+#10
+```{r}
+plot(df$G1, df$G2, 
+     xlab = "G1", 
+     ylab = "G2", 
+     main = "Scatter Plot of G2 vs G1",
+     pch = 19, col = "blue")
+
+abline(lm(df$G2 ~ df$G1), col = "red")
+
+```
+
+#12
+```{r}
+lm3 <- lm(G3 ~ G1, data = df)
+adjusted_r_squared_lm3 <- summary(lm3)$adj.r.squared
+cat("Adjusted R-squared of lm3:", adjusted_r_squared_lm3, "\n")
+
+```
+
+#13
+```{r}
+boxplot(G3 ~ failures, data = df,
+        main = "Boxplot of G3 vs Failures",
+        xlab = "Failures",
+        ylab = "G3",
+        col = "lightblue")
+
+```
+#14
+```{r}
+lm4 <- lm(G3 ~ G1 + failures, data = df)
+adjusted_r_squared_lm4 <- summary(lm4)$adj.r.squared
+cat("Adjusted R-squared of lm4:", adjusted_r_squared_lm4, "\n")
+
+```
+#15
+```{r}
+lm4 <- lm(G3 ~ G1 + failures, data = df)
+coefficient_failures_lm4 <- summary(lm4)$coefficients["failures", "Estimate"]
+cat("Coefficient of failures in lm4:", coefficient_failures_lm4, "\n")
+
+```
+
+#16
+```{r}
+
+lm4 <- lm(G3 ~ G1 + failures, data = df)
+
+G1_value <- 10
+failures_value <- 2
+predicted_G3 <- coef(lm4)["(Intercept)"] + coef(lm4)["G1"] * G1_value + coef(lm4)["failures"] * failures_value
+cat("Predicted G3 score:", predicted_G3, "\n")
+
+```
+
+#17
+```{r}
+lm4 <- lm(G3 ~ G1 + failures, data = df)
+coefficient_G1_lm4 <- summary(lm4)$coefficients["G1", "Estimate"]
+cat("Coefficient of G1 in lm4:", coefficient_G1_lm4, "\n")
+
+```
+
+#18
+```{r}
+lm4 <- lm(G3 ~ G1 + failures, data = df)
+coefficient_failures_lm4 <- summary(lm4)$coefficients["failures", "Estimate"]
+cat("Coefficient of failures in lm4:", coefficient_failures_lm4, "\n")
+
+```
+
+#11
+```{r}
+
+plot(df$G1, df$G3, 
+     xlab = "G1", 
+     ylab = "G3", 
+     main = "Scatter Plot of G3 vs G1",
+     pch = 19, col = "blue")
+abline(lm(G3 ~ G1, data = df), col = "red")
+
+```
+
